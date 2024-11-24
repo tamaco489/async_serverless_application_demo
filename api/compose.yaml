@@ -1,0 +1,26 @@
+services:
+  nautilus-api:
+    platform: linux/amd64
+    image: cosmtrek/air:v1.51.0
+    container_name: nautilus-api
+    working_dir: /go/src/github.com/takeuchima0/async_serverless_application_demo/api/nautilus
+    volumes:
+      - ./nautilus:/go/src/github.com/takeuchima0/async_serverless_application_demo/api/nautilus
+      - ~/.cache/go-build:/root/.cache/go-build
+    ports:
+      - "8881:8080"
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: nautilus-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: s3
+      DEBUG: 1
+      AWS_DEFAULT_REGION: ap-northeast-1
+      DATA_DIR: /var/lib/localstack
+    volumes:
+      - "./ibis/scripts/localstack/s3_init.sh:/etc/localstack/init/ready.d/s3_init.sh"
+    entrypoint: >
+      /bin/bash -c "awslocal configure set cli_follow_urlparam false && docker-entrypoint.sh"
