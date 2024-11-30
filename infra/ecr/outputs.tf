@@ -16,6 +16,15 @@ output "ibis_api" {
   }
 }
 
+output "coral_api" {
+  value = {
+    arn  = aws_ecr_repository.coral_api.arn
+    id   = aws_ecr_repository.coral_api.id
+    name = aws_ecr_repository.coral_api.name
+    url  = aws_ecr_repository.coral_api.repository_url
+  }
+}
+
 output "image_maker_batch" {
   value = {
     arn  = aws_ecr_repository.image_maker_batch.arn
