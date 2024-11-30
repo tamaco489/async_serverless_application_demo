@@ -1,7 +1,7 @@
 # Lambda関数をターゲットとするAPI Gateway (HTTP API) を作成
 resource "aws_apigatewayv2_api" "coral_api_http" {
   name          = "${var.env}-coral-http-api"
-  description   = "ユーザ情報登録 API Gateway (HTTP API)"
+  description   = "ユーザ情報管理 API Gateway (HTTP API)"
   protocol_type = "HTTP"
   tags = {
     Name = "${var.env}-coral-api-gateway"
