@@ -3,6 +3,7 @@
 # =================================================================
 AWS_API_v1_DOMAIN := api.<api-domain>
 AWS_API_v2_DOMAIN := apiv2.<api-domain>
+AWS_API_v3_DOMAIN := apiv3.<api-domain>
 
 
 # =================================================================
@@ -64,6 +65,17 @@ ibis-client-image-upload:
 	curl -i -sX PUT --upload-file \
 		/mnt/c/Users/nuro1/Desktop/mt/992_development_image/d132bc66-d075-dbd8-9e77-5ad1b7129dca.png \
 		"https://dev-nautilus-original-image.s3.ap-northeast-1.amazonaws.com/profiles/15726031/d132bc66-d075-dbd8-9e77-5ad1b7129dca.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA4WU2Z6N37IKY3YHI%2F20241026%2Fap-northeast-1%2Fs3%2Faws4_request&X-Amz-Date=20241026T132531Z&X-Amz-Expires=1800&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJ3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLW5vcnRoZWFzdC0xIkYwRAIgWc2c0LdTy820Df0qcaZd0b%2FYli0QMN%2FCe2YwECPmB70CIB4D3%2B29AlB%2FlQZzm0NpFC9q9Lq84EFCwVrVSSL%2FE%2BXqKvECCBcQARoMODczMjc2NzY1MDQ3IgyvBq1EunG%2FOYstQpcqzgLgO%2BHv4ynL0kpBHQMspsnGsuFISrNMI1nyP9L1Tl1APhNjcUR%2F%2B7TRj%2FtB9at9rfdKa7uJ09yh7RaiaJTCSTarXqkZu2P%2BdKDceKuQjFBtmw2W8ev4HG3m8jC40tKzR20titTinKo63ijDwwYwDM72zkZ5OvUKSNyNCkx7Wn%2FhlP8c7Wjc3pTpQkZCyjinIvOyPsV6ch2kiYZeKRJIGswNw1ZB%2Fy8o7KOZXG6P2s9sYBBDT9xgd3YJdhm6Hxx50Y305vHjSUdTErZe6q%2BSaikrHWEEUzA6C0DX4iUkDqB0jMEXR227BlmGfLIdKYKOuvfklbq1Rwj0Fu%2FS1y0lZJeHPUWJ7s5xyMePZD7LAY5s18ijRi8cvrfMsCQ%2BWHIX2syBrByraTv5w%2Fw7WsLmaY3QuGoHHuBuB2zXTw1avVOXYa8UrZhjwtIYZo%2F2US1VMMvb87gGOp8BLnXeYVyd8LMq1PRNXTWrharVWB5d5hKkdM88lZknnLFwyT5MOL6xN7TnFGYCs6pV%2BkCbE%2BWGrLIPDT5esBdL9l1CHhhnRhliSSLJwfmtcUltOvakOEekV7Xd0KB9ToiZOmfW%2B9eE7G76gdvTfQXMBHfdzGTISMq3%2FnCwUTlNFg8RM40RlPHv9k4Ikxk7vXj5e8EUyDqwYIO%2Bz0jJkLMV&X-Amz-SignedHeaders=host&x-id=PutObject&X-Amz-Signature=ac3b1aabf4c2fb6de029d0e32031c3741ddc2ff96b48ac805b2aa0c0e82e6680"
+
+
+# =================================================================
+# ユーザ情報登録サービス
+# =================================================================
+.PHONY: coral-healthcheck
+
+# ヘルスチェック
+coral-healthcheck:
+	curl -sX GET 'https://${AWS_API_v3_DOMAIN}/coral/v3/healthcheck' \
+		-H "Content-Type: application/json" | jq .
 
 
 # =================================================================
