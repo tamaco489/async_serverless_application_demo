@@ -33,6 +33,6 @@ resource "aws_apigatewayv2_stage" "default_stage" {
 # API Gateway とカスタムドメインのマッピング
 resource "aws_apigatewayv2_api_mapping" "ibis_api_mapping" {
   api_id      = aws_apigatewayv2_api.ibis_api_http.id
-  domain_name = data.terraform_remote_state.acm.outputs.apigatewayv2_domain_name.id
+  domain_name = data.terraform_remote_state.acm.outputs.ibis_apigatewayv2_domain_name.id
   stage       = aws_apigatewayv2_stage.default_stage.id
 }
