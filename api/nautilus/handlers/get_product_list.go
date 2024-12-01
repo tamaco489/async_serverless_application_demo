@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/takeuchima0/async_serverless_application_demo/api/nautilus/models"
+	"github.com/tamaco489/async_serverless_application_demo/api/nautilus/models"
 )
 
 // 商品一覧取得API

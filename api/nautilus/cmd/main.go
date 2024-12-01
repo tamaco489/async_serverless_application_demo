@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/takeuchima0/async_serverless_application_demo/api/nautilus/handlers"
+	"github.com/tamaco489/async_serverless_application_demo/api/nautilus/handlers"
 )
 
 // 発注処理サーバの実装

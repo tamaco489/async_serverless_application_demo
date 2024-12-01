@@ -7,11 +7,11 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/takeuchima0/async_serverless_application_demo/api/nautilus/configuration"
-	"github.com/takeuchima0/async_serverless_application_demo/api/nautilus/library/sqs_client"
-	"github.com/takeuchima0/async_serverless_application_demo/api/nautilus/models"
+	"github.com/tamaco489/async_serverless_application_demo/api/nautilus/configuration"
+	"github.com/tamaco489/async_serverless_application_demo/api/nautilus/library/sqs_client"
+	"github.com/tamaco489/async_serverless_application_demo/api/nautilus/models"
 
-	constants "github.com/takeuchima0/async_serverless_application_demo/api/nautilus/constants"
+	constants "github.com/tamaco489/async_serverless_application_demo/api/nautilus/constants"
 )
 
 // 商品購入API
