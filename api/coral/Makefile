@@ -7,7 +7,7 @@ VERSION := coral_v0.0.0
 # =================================================================
 # for CI
 # =================================================================
-.PHONY: lint deps build run up down logs
+.PHONY: lint deps build run
 lint:
 	golangci-lint run --timeout 3m
 
@@ -19,6 +19,20 @@ build: deps
 
 run: build
 	./build/coral_api
+
+
+# =================================================================
+# for Container
+# =================================================================
+.PHONY: up down logs
+up:
+	docker compose up -d coral-api
+
+down:
+	docker compose down coral-api
+
+logs:
+	docker compose logs -f coral-api
 
 
 # =================================================================

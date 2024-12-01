@@ -7,7 +7,7 @@ VERSION := nautilus_v0.0.0
 # =================================================================
 # for CI
 # =================================================================
-.PHONY: lint deps build run up down logs
+.PHONY: lint deps build run
 lint:
 	golangci-lint run --timeout 3m
 
