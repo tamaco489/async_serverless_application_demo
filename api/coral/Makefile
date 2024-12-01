@@ -43,3 +43,14 @@ delete-images:
 	@cat /tmp/images.json | jq -c '.[]' | while read -r image_id; do \
 	  aws ecr batch-delete-image --repository-name dev-coral-api --region ap-northeast-1 --profile ${AWS_PROFILE} --image-ids $${image_id}; \
 	done | jq .
+
+
+# =================================================================
+# for Lambda
+# =================================================================
+.PHONY: deploy
+# make deploy AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID} AWS_PROFILE=${AWS_PROFILE}
+deploy: push
+	aws lambda update-function-code  --profile ${AWS_PROFILE} \
+		--function-name dev-coral-api \
+		--image-uri $(AWS_ACCOUNT_ID).dkr.ecr.ap-northeast-1.amazonaws.com/dev-coral-api:$(VERSION) | jq .

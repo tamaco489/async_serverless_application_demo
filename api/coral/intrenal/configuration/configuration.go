@@ -13,7 +13,7 @@ type Config struct {
 	AWSConfig aws.Config
 	API       struct {
 		Env         string `envconfig:"API_ENV" default:"dev"`
-		Port        string `envconfig:"API_PORT" default:"8082"`
+		Port        string `envconfig:"API_PORT" default:"8080"`
 		ServiceName string `envconfig:"API_SERVICE_NAME" default:"coral-api"`
 	}
 }

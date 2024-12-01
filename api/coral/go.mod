@@ -3,7 +3,6 @@ module github.com/takeuchima0/async_serverless_application_demo/api/coral
 go 1.23.1
 
 require (
-	github.com/aws/aws-lambda-go v1.47.0
 	github.com/aws/aws-sdk-go-v2 v1.32.5
 	github.com/aws/aws-sdk-go-v2/config v1.28.5
 	github.com/kelseyhightower/envconfig v1.4.0

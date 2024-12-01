@@ -1,4 +1,4 @@
-FROM golang:1.23.1 AS builder
+FROM golang:1.23 AS builder
 
 WORKDIR /go/src/api
 
@@ -11,10 +11,12 @@ RUN CGO_ENABLED=0 go build -tags appsec -o /go/bin/app -ldflags="-w -s" ./cmd/ma
 FROM debian:bullseye-slim
 
 RUN apt-get update \
-  && apt-get install -y --force-yes --no-install-recommends apt-transport-https curl ca-certificates \
+  && apt-get install -y --force-yes --no-install-recommends apt-transport-https curl build-essential ca-certificates \
   && apt-get clean \
   && apt-get autoremove \
   && rm -rf /var/lib/apt/lists/*
+
+COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 /lambda-adapter /opt/extensions/lambda-adapter
 
 COPY --from=builder /go/bin/app /
 
