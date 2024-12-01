@@ -23,11 +23,16 @@ func (h *CoralHandler) CreateUserHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	if err := h.userUseCase.CreateUser(r.Context(), user); err != nil {
+	responseUser, err := h.userUseCase.CreateUser(r.Context(), user)
+	if err != nil {
 		http.Error(w, fmt.Sprintf("failed to create user in DynamoDB: %v", err), http.StatusInternalServerError)
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	fmt.Fprintf(w, "user created: %v", user)
+	if err := json.NewEncoder(w).Encode(responseUser); err != nil {
+		http.Error(w, fmt.Sprintf("failed to encode response: %v", err), http.StatusInternalServerError)
+		return
+	}
 }

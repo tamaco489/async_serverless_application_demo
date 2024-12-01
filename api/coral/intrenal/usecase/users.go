@@ -16,7 +16,7 @@ type userUseCase struct {
 }
 
 type UserUseCase interface {
-	CreateUser(ctx context.Context, user map[string]interface{}) error
+	CreateUser(ctx context.Context, user map[string]interface{}) (model.User, error)
 }
 
 func NewUserUseCase(dynamoRepo *repository.DynamoDBRepository) *userUseCase {
@@ -27,18 +27,18 @@ func NewUserUseCase(dynamoRepo *repository.DynamoDBRepository) *userUseCase {
 	}
 }
 
-func (uc *userUseCase) CreateUser(ctx context.Context, user map[string]interface{}) error {
+func (uc *userUseCase) CreateUser(ctx context.Context, user map[string]interface{}) (model.User, error) {
 
 	userModel, err := uc.convertToUserModel(user)
 	if err != nil {
-		return fmt.Errorf("failed to convert to user model: %v", err)
+		return model.User{}, fmt.Errorf("failed to convert to user model: %v", err)
 	}
 
 	if _, err = uc.dynamoRepo.CreateUser(ctx, uc.tableName, userModel); err != nil {
-		return fmt.Errorf("failed to create user: %v", err)
+		return model.User{}, fmt.Errorf("failed to create user: %v", err)
 	}
 
-	return nil
+	return userModel, nil
 }
 
 var _ UserUseCase = (*userUseCase)(nil)
