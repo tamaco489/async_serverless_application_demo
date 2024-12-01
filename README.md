@@ -9,7 +9,7 @@
   - S3向け画像コンテンツのダウンロード/アップロード用の署名付きURLを発行するAPI
 
 - coral:
-  - DynamoDBへレコードを投入し、データの永続化を行うAPI
+  - ユーザ情報管理用API (DynamoDBへレコードを投入し、データの永続化を行うAPI)
 
 ### batch server
 
