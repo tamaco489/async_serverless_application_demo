@@ -11,7 +11,7 @@ type DynamoDBRepository struct {
 	tableName string
 }
 
-func NewDynamoDBWrapper(cfg aws.Config, tableName string) *DynamoDBRepository {
+func NewDynamoDBRepository(cfg aws.Config, tableName string) *DynamoDBRepository {
 	cfg.Credentials = aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider("dummy", "dummy", ""))
 
 	client := dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {

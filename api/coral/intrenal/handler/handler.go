@@ -19,7 +19,7 @@ func NewHandler(ctx context.Context) (*CoralHandler, error) {
 	}
 
 	cnf := configuration.Get()
-	dynamoDBRepo := repository.NewDynamoDBWrapper(cnf.AWSConfig, "Users") // NOTE: テーブルは動的に選択できるようにしたいです。
+	dynamoDBRepo := repository.NewDynamoDBRepository(cnf.AWSConfig, "Users") // NOTE: テーブルは動的に選択できるようにしたいです。
 	userUseCase := usecase.NewUserUseCase(dynamoDBRepo)
 
 	return &CoralHandler{
