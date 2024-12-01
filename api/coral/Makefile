@@ -36,6 +36,38 @@ logs:
 
 
 # =================================================================
+# for DynamoDB
+# =================================================================
+.PHONY: dynamodb-up dynamodb-down dynamodb-logs
+dynamodb-up:
+	docker compose up -d dynamodb-local dynamodb-admin
+
+dynamodb-down:
+	docker compose down dynamodb-local dynamodb-admin
+
+dynamodb-logs:
+	docker compose logs -f dynamodb-local
+
+# =================================================================
+# dynamodb テーブル作成
+# =================================================================
+.PHONY: get-dynamodb-tables create-dynamodb-table make delete-dynamodb-table
+get-dynamodb-tables:
+	aws --endpoint-url http://localhost:8000 dynamodb list-tables | tee
+
+create-dynamodb-table:
+	aws --endpoint-url http://localhost:8000 dynamodb create-table \
+		--table-name users \
+		--attribute-definitions AttributeName=user_id,AttributeType=S \
+		--key-schema AttributeName=user_id,KeyType=HASH \
+		--provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 | jq .
+
+delete-dynamodb-table:
+	aws --endpoint-url http://localhost:8000 dynamodb delete-table \
+		--table-name users | jq .
+
+
+# =================================================================
 # for ECR
 # =================================================================
 .PHONY: auth push get-images delete-images

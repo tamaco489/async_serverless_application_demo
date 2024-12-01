@@ -70,12 +70,21 @@ ibis-client-image-upload:
 # =================================================================
 # ユーザ情報登録サービス
 # =================================================================
-.PHONY: coral-healthcheck
+.PHONY: coral-healthcheck coral-create-user
 
 # ヘルスチェック
 coral-healthcheck:
 	curl -sX GET 'https://${AWS_API_v3_DOMAIN}/coral/v3/healthcheck' \
 		-H "Content-Type: application/json" | jq .
+
+# coral-healthcheck:
+# 	curl -sX GET 'http://localhost:8082/coral/v3/healthcheck' \
+# 		-H "Content-Type: application/json" | jq .
+
+coral-create-user:
+	curl -i -sX POST 'http://localhost:8082/coral/v3/users' \
+		-H "Content-Type: application/json" \
+		-d '{"email":"ulala.halu@example.com", "birthday":"2000-12-01", "ekyc_status":"pending", "invite_code":"XYZ123", "is_admin":false}'
 
 
 # =================================================================
