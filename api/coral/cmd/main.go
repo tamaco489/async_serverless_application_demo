@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net/http"
 
@@ -39,7 +40,7 @@ func main() {
 	// DELETE: delete user by user_id only administrator
 	// http.HandleFunc("/coral/v3/users/{userID}", handler.HealthCheckHandler)
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", configuration.Get().API.Port), nil); err != nil {
 		slog.ErrorContext(ctx, "ListenAndServe error", "error", err)
 	}
 }
