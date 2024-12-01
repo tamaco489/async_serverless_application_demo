@@ -6,19 +6,19 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 )
 
-type DynamoDBWrapper struct {
+type DynamoDBRepository struct {
 	client    *dynamodb.Client
 	tableName string
 }
 
-func NewDynamoDBWrapper(cfg aws.Config, tableName string) *DynamoDBWrapper {
+func NewDynamoDBWrapper(cfg aws.Config, tableName string) *DynamoDBRepository {
 	cfg.Credentials = aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider("dummy", "dummy", ""))
 
 	client := dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
 		o.BaseEndpoint = aws.String("http://dynamodb-local:8000")
 	})
 
-	return &DynamoDBWrapper{
+	return &DynamoDBRepository{
 		client:    client,
 		tableName: tableName,
 	}
