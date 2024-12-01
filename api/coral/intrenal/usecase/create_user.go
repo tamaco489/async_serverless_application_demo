@@ -10,6 +10,7 @@ import (
 
 type userUseCase struct {
 	dynamoRepo *repository.DynamoDBRepository
+	tableName  string
 }
 
 type UserUseCase interface {
@@ -17,8 +18,10 @@ type UserUseCase interface {
 }
 
 func NewUserUseCase(dynamoRepo *repository.DynamoDBRepository) *userUseCase {
+	const tableName = "Users"
 	return &userUseCase{
 		dynamoRepo: dynamoRepo,
+		tableName:  tableName,
 	}
 }
 
@@ -29,7 +32,7 @@ func (uc *userUseCase) CreateUser(ctx context.Context, user map[string]interface
 		return fmt.Errorf("failed to convert to user model: %v", err)
 	}
 
-	if _, err = uc.dynamoRepo.CreateUser(ctx, userModel); err != nil {
+	if _, err = uc.dynamoRepo.CreateUser(ctx, uc.tableName, userModel); err != nil {
 		return fmt.Errorf("failed to create user: %v", err)
 	}
 

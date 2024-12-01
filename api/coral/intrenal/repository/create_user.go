@@ -12,10 +12,10 @@ import (
 )
 
 type DynamoDBService interface {
-	CreateUser(ctx context.Context, user model.User) (*dynamodb.PutItemOutput, error)
+	CreateUser(ctx context.Context, tableName string, user model.User) (*dynamodb.PutItemOutput, error)
 }
 
-func (w *DynamoDBRepository) CreateUser(ctx context.Context, user model.User) (*dynamodb.PutItemOutput, error) {
+func (w *DynamoDBRepository) CreateUser(ctx context.Context, tableName string, user model.User) (*dynamodb.PutItemOutput, error) {
 
 	item, err := user.DynamoAttributeMapFromUser()
 	if err != nil {
@@ -23,7 +23,7 @@ func (w *DynamoDBRepository) CreateUser(ctx context.Context, user model.User) (*
 	}
 
 	output, err := w.client.PutItem(ctx, &dynamodb.PutItemInput{
-		TableName: aws.String(w.tableName),
+		TableName: aws.String(tableName),
 		Item:      item,
 	})
 	if err != nil {

@@ -7,11 +7,11 @@ import (
 )
 
 type DynamoDBRepository struct {
-	client    *dynamodb.Client
-	tableName string
+	client *dynamodb.Client
 }
 
-func NewDynamoDBRepository(cfg aws.Config, tableName string) *DynamoDBRepository {
+func NewDynamoDBRepository(cfg aws.Config) *DynamoDBRepository {
+
 	cfg.Credentials = aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider("dummy", "dummy", ""))
 
 	client := dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
@@ -19,7 +19,6 @@ func NewDynamoDBRepository(cfg aws.Config, tableName string) *DynamoDBRepository
 	})
 
 	return &DynamoDBRepository{
-		client:    client,
-		tableName: tableName,
+		client: client,
 	}
 }
