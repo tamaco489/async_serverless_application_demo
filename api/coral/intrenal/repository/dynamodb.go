@@ -22,7 +22,7 @@ func NewDynamoDBRepository(cfg aws.Config, env string) *DynamoDBRepository {
 		})
 
 	case "stg":
-		//
+		client = dynamodb.NewFromConfig(cfg)
 	}
 
 	return &DynamoDBRepository{

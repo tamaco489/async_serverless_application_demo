@@ -82,9 +82,14 @@ coral-healthcheck:
 # 		-H "Content-Type: application/json" | jq .
 
 coral-create-user:
-	curl -i -sX POST 'http://localhost:8082/coral/v3/users' \
+	curl -i -sX POST 'https://${AWS_API_v3_DOMAIN}/coral/v3/users' \
 		-H "Content-Type: application/json" \
 		-d '{"email":"ulala.halu@example.com", "birthday":"2000-12-01", "ekyc_status":"pending", "invite_code":"XYZ123", "is_admin":false}'
+
+# coral-create-user:
+# 	curl -i -sX POST 'http://localhost:8082/coral/v3/users' \
+# 		-H "Content-Type: application/json" \
+# 		-d '{"email":"ulala.halu@example.com", "birthday":"2000-12-01", "ekyc_status":"pending", "invite_code":"XYZ123", "is_admin":false}'
 
 
 # =================================================================
