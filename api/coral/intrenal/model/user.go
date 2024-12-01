@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -13,13 +12,13 @@ type User struct {
 	Birthday   string `json:"birthday"`
 	EkycStatus string `json:"ekyc_status"`
 	InviteCode string `json:"invite_code"`
-	IsAdmin    int    `json:"is_admin"`
+	IsAdmin    bool   `json:"is_admin"`
 	CreatedAt  string `json:"created_at"`
 	UpdatedAt  string `json:"updated_at"`
 }
 
 // NewUser: Userモデルの初期化
-func NewUser(userID, email, birthday, ekycStatus, inviteCode string, isAdmin int) *User {
+func NewUser(userID, email, birthday, ekycStatus, inviteCode string, isAdmin bool) *User {
 	currentTime := time.Now().Format(time.RFC3339) // 現在の時刻をISO 8601形式で取得
 
 	return &User{
@@ -53,8 +52,8 @@ func (user User) DynamoAttributeMapFromUser() (map[string]types.AttributeValue, 
 	// InviteCode
 	item["InviteCode"] = &types.AttributeValueMemberS{Value: user.InviteCode}
 
-	// IsAdmin (注意: DynamoDBでは int を渡すときは AttributeValueMemberN を使う)
-	item["IsAdmin"] = &types.AttributeValueMemberN{Value: fmt.Sprintf("%d", user.IsAdmin)}
+	// IsAdmin
+	item["IsAdmin"] = &types.AttributeValueMemberBOOL{Value: user.IsAdmin}
 
 	// CreatedAt
 	item["CreatedAt"] = &types.AttributeValueMemberS{Value: user.CreatedAt}

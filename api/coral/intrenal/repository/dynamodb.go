@@ -10,13 +10,20 @@ type DynamoDBRepository struct {
 	client *dynamodb.Client
 }
 
-func NewDynamoDBRepository(cfg aws.Config) *DynamoDBRepository {
+func NewDynamoDBRepository(cfg aws.Config, env string) *DynamoDBRepository {
 
-	cfg.Credentials = aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider("dummy", "dummy", ""))
+	var client *dynamodb.Client
 
-	client := dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
-		o.BaseEndpoint = aws.String("http://dynamodb-local:8000")
-	})
+	switch env {
+	case "dev":
+		cfg.Credentials = aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider("dummy", "dummy", ""))
+		client = dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
+			o.BaseEndpoint = aws.String("http://dynamodb-local:8000")
+		})
+
+	case "stg":
+		//
+	}
 
 	return &DynamoDBRepository{
 		client: client,

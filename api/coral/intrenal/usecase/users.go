@@ -44,44 +44,45 @@ var _ UserUseCase = (*userUseCase)(nil)
 // convertToUserModel: リクエストボディに指定された内容をUserモデルに変換
 func (uc *userUseCase) convertToUserModel(user map[string]interface{}) (model.User, error) {
 
-	userModel := model.User{}
-
 	// 必要なフィールドが存在しない場合や型が不一致の場合にエラーを返す
-	if userID, ok := user["UserID"].(string); ok {
-		userModel.UserID = userID
-	} else {
-		return userModel, fmt.Errorf("userID is required and should be a string")
+	userID, ok := user["UserID"].(string)
+	if !ok {
+		return model.User{}, fmt.Errorf("userID is required and should be a string")
 	}
 
-	if email, ok := user["email"].(string); ok {
-		userModel.Email = email
-	} else {
-		return userModel, fmt.Errorf("email is required and should be a string")
+	email, ok := user["email"].(string)
+	if !ok {
+		return model.User{}, fmt.Errorf("email is required and should be a string")
 	}
 
-	if birthday, ok := user["birthday"].(string); ok {
-		userModel.Birthday = birthday
-	} else {
-		return userModel, fmt.Errorf("birthday is required and should be a string")
+	birthday, ok := user["birthday"].(string)
+	if !ok {
+		return model.User{}, fmt.Errorf("birthday is required and should be a string")
 	}
 
-	if ekycStatus, ok := user["ekyc_status"].(string); ok {
-		userModel.EkycStatus = ekycStatus
-	} else {
-		return userModel, fmt.Errorf("ekyc_status is required and should be a string")
+	ekycStatus, ok := user["ekyc_status"].(string)
+	if !ok {
+		return model.User{}, fmt.Errorf("ekyc_status is required and should be a string")
 	}
 
-	if inviteCode, ok := user["invite_code"].(string); ok {
-		userModel.InviteCode = inviteCode
-	} else {
-		return userModel, fmt.Errorf("invite_code is required and should be a string")
+	inviteCode, ok := user["invite_code"].(string)
+	if !ok {
+		return model.User{}, fmt.Errorf("invite_code is required and should be a string")
 	}
 
-	if isAdmin, ok := user["is_admin"].(float64); ok { // DynamoDBでは数値はfloat64として取得されることが多い
-		userModel.IsAdmin = int(isAdmin)
-	} else {
-		return userModel, fmt.Errorf("is_admin is required and should be an integer")
+	isAdmin, ok := user["is_admin"].(bool)
+	if !ok {
+		return model.User{}, fmt.Errorf("is_admin is required and should be an boolean")
 	}
 
-	return userModel, nil
+	newUser := model.NewUser(
+		userID,
+		email,
+		birthday,
+		ekycStatus,
+		inviteCode,
+		isAdmin,
+	)
+
+	return *newUser, nil
 }

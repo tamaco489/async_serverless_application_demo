@@ -19,7 +19,7 @@ func NewHandler(ctx context.Context) (*CoralHandler, error) {
 	}
 
 	cnf := configuration.Get()
-	dynamoDBRepo := repository.NewDynamoDBRepository(cnf.AWSConfig)
+	dynamoDBRepo := repository.NewDynamoDBRepository(cnf.AWSConfig, cnf.API.Env)
 	userUseCase := usecase.NewUserUseCase(dynamoDBRepo)
 
 	return &CoralHandler{
