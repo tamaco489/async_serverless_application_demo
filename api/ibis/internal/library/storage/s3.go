@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/takeuchima0/async_serverless_application_demo/api/ibis/internal/configuration"
+	"github.com/tamaco489/async_serverless_application_demo/api/ibis/internal/configuration"
 )
 
 var _ StorageService = (*S3Wrapper)(nil)

@@ -3,9 +3,9 @@ services:
     platform: linux/amd64
     image: cosmtrek/air:v1.51.0
     container_name: nautilus-api
-    working_dir: /go/src/github.com/takeuchima0/async_serverless_application_demo/api/nautilus
+    working_dir: /go/src/github.com/tamaco489/async_serverless_application_demo/api/nautilus
     volumes:
-      - ./nautilus:/go/src/github.com/takeuchima0/async_serverless_application_demo/api/nautilus
+      - ./nautilus:/go/src/github.com/tamaco489/async_serverless_application_demo/api/nautilus
       - ~/.cache/go-build:/root/.cache/go-build
     ports:
       - "8881:8080"

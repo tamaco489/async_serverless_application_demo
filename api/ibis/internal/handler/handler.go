@@ -8,8 +8,8 @@ import (
 	"regexp"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/takeuchima0/async_serverless_application_demo/api/ibis/internal/configuration"
-	"github.com/takeuchima0/async_serverless_application_demo/api/ibis/internal/usecase"
+	"github.com/tamaco489/async_serverless_application_demo/api/ibis/internal/configuration"
+	"github.com/tamaco489/async_serverless_application_demo/api/ibis/internal/usecase"
 )
 
 type IbisHandler struct{}

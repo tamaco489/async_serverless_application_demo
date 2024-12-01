@@ -1,4 +1,4 @@
-module github.com/takeuchima0/async_serverless_application_demo/batch/rank
+module github.com/tamaco489/async_serverless_application_demo/batch/rank
 
 go 1.23.1
 

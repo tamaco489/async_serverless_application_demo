@@ -8,7 +8,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
-	"github.com/takeuchima0/async_serverless_application_demo/batch/notification/internal/models"
+	"github.com/tamaco489/async_serverless_application_demo/batch/notification/internal/models"
 )
 
 type SQSClient struct {

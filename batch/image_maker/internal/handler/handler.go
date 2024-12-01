@@ -16,8 +16,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/disintegration/imaging"
-	"github.com/takeuchima0/async_serverless_application_demo/batch/image_maker/internal/configuration"
-	"github.com/takeuchima0/async_serverless_application_demo/batch/image_maker/internal/utils"
+	"github.com/tamaco489/async_serverless_application_demo/batch/image_maker/internal/configuration"
+	"github.com/tamaco489/async_serverless_application_demo/batch/image_maker/internal/utils"
 )
 
 type ImageMakerHandler struct {

@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/takeuchima0/async_serverless_application_demo/api/ibis/internal/configuration"
-	"github.com/takeuchima0/async_serverless_application_demo/api/ibis/internal/library/storage"
+	"github.com/tamaco489/async_serverless_application_demo/api/ibis/internal/configuration"
+	"github.com/tamaco489/async_serverless_application_demo/api/ibis/internal/library/storage"
 )
 
 type GetUploadImageURLUseCase struct{}

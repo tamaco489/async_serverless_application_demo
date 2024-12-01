@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/takeuchima0/async_serverless_application_demo/api/coral/intrenal/configuration"
+	"github.com/tamaco489/async_serverless_application_demo/api/coral/intrenal/configuration"
 )
 
 type CoralHandler struct {

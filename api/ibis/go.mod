@@ -1,4 +1,4 @@
-module github.com/takeuchima0/async_serverless_application_demo/api/ibis
+module github.com/tamaco489/async_serverless_application_demo/api/ibis
 
 go 1.23.1
 
