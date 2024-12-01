@@ -8,6 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.28.5
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.46
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.37.1
+	github.com/gofrs/uuid/v5 v5.3.0
 	github.com/kelseyhightower/envconfig v1.4.0
 )
 

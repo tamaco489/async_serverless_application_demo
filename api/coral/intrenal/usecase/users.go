@@ -3,7 +3,9 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"time"
 
+	"github.com/gofrs/uuid/v5"
 	"github.com/tamaco489/async_serverless_application_demo/api/coral/intrenal/model"
 	"github.com/tamaco489/async_serverless_application_demo/api/coral/intrenal/repository"
 )
@@ -45,11 +47,6 @@ var _ UserUseCase = (*userUseCase)(nil)
 func (uc *userUseCase) convertToUserModel(user map[string]interface{}) (model.User, error) {
 
 	// 必要なフィールドが存在しない場合や型が不一致の場合にエラーを返す
-	userID, ok := user["UserID"].(string)
-	if !ok {
-		return model.User{}, fmt.Errorf("userID is required and should be a string")
-	}
-
 	email, ok := user["email"].(string)
 	if !ok {
 		return model.User{}, fmt.Errorf("email is required and should be a string")
@@ -75,13 +72,20 @@ func (uc *userUseCase) convertToUserModel(user map[string]interface{}) (model.Us
 		return model.User{}, fmt.Errorf("is_admin is required and should be an boolean")
 	}
 
+	now := time.Now()
+	uuid, err := uuid.NewV7AtTime(now)
+	if err != nil {
+		return model.User{}, fmt.Errorf("failed generate uuid error: %v", err)
+	}
+
 	newUser := model.NewUser(
-		userID,
+		uuid.String(),
 		email,
 		birthday,
 		ekycStatus,
 		inviteCode,
 		isAdmin,
+		now,
 	)
 
 	return *newUser, nil

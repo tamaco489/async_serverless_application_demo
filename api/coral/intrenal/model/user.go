@@ -18,8 +18,9 @@ type User struct {
 }
 
 // NewUser: Userモデルの初期化
-func NewUser(userID, email, birthday, ekycStatus, inviteCode string, isAdmin bool) *User {
-	currentTime := time.Now().Format(time.RFC3339) // 現在の時刻をISO 8601形式で取得
+func NewUser(userID, email, birthday, ekycStatus, inviteCode string, isAdmin bool, now time.Time) *User {
+
+	currentTime := now.Format(time.RFC3339) // 現在の時刻をISO 8601形式で取得
 
 	return &User{
 		UserID:     userID,
