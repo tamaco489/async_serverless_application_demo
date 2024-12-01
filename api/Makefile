@@ -84,7 +84,7 @@ coral-healthcheck:
 coral-create-user:
 	curl -i -sX POST 'http://localhost:8082/coral/v3/users' \
 		-H "Content-Type: application/json" \
-		-d '{"UserID":"11000108", "email":"john.doe@example.com", "birthday":"1990-01-01", "ekyc_status":"pending", "invite_code":"XYZ123", "is_admin":false, "created_at":"2024-12-01T00:00:00Z", "updated_at":"2024-12-01T00:00:00Z"}'
+		-d '{"email":"ulala.halu@example.com", "birthday":"2000-12-01", "ekyc_status":"pending", "invite_code":"XYZ123", "is_admin":false}'
 
 
 # =================================================================
