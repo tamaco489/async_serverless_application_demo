@@ -14,7 +14,7 @@ resource "aws_lambda_function" "coral_api" {
   environment {
     variables = {
       API_SERVICE_NAME = "coral-api"
-      API_ENV          = "dev"
+      API_ENV          = "stg"
       API_PORT         = "8080"
     }
   }
