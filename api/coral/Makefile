@@ -48,6 +48,24 @@ dynamodb-down:
 dynamodb-logs:
 	docker compose logs -f dynamodb-local
 
+# =================================================================
+# dynamodb テーブル作成
+# =================================================================
+.PHONY: get-dynamodb-tables create-dynamodb-table make delete-dynamodb-table
+get-dynamodb-tables:
+	aws --endpoint-url http://localhost:8000 dynamodb list-tables | tee
+
+create-dynamodb-table:
+	aws --endpoint-url http://localhost:8000 dynamodb create-table \
+		--table-name Users \
+		--attribute-definitions AttributeName=UserID,AttributeType=S \
+		--key-schema AttributeName=UserID,KeyType=HASH \
+		--provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 | jq .
+
+delete-dynamodb-table:
+	aws --endpoint-url http://localhost:8000 dynamodb delete-table \
+		--table-name Users | jq .
+
 
 # =================================================================
 # for ECR
