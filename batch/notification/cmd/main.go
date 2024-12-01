@@ -8,9 +8,9 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/takeuchima0/async_serverless_application_demo/batch/notification/internal/configuration"
-	"github.com/takeuchima0/async_serverless_application_demo/batch/notification/internal/library/sqs_client"
-	"github.com/takeuchima0/async_serverless_application_demo/batch/notification/internal/models"
+	"github.com/tamaco489/async_serverless_application_demo/batch/notification/internal/configuration"
+	"github.com/tamaco489/async_serverless_application_demo/batch/notification/internal/library/sqs_client"
+	"github.com/tamaco489/async_serverless_application_demo/batch/notification/internal/models"
 )
 
 func handler(ctx context.Context, sqsEvent events.SQSEvent) error {
