@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/takeuchima0/async_serverless_application_demo/api/nautilus/models"
+	"github.com/tamaco489/async_serverless_application_demo/api/nautilus/models"
 )
 
 // 在庫確保API

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/takeuchima0/async_serverless_application_demo/batch/image_maker/internal/handler"
+	"github.com/tamaco489/async_serverless_application_demo/batch/image_maker/internal/handler"
 )
 
 func main() {
