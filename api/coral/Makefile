@@ -36,6 +36,20 @@ logs:
 
 
 # =================================================================
+# for DynamoDB
+# =================================================================
+.PHONY: dynamodb-up dynamodb-down dynamodb-logs
+dynamodb-up:
+	docker compose up -d dynamodb-local dynamodb-admin
+
+dynamodb-down:
+	docker compose down dynamodb-local dynamodb-admin
+
+dynamodb-logs:
+	docker compose logs -f dynamodb-local
+
+
+# =================================================================
 # for ECR
 # =================================================================
 .PHONY: auth push get-images delete-images
