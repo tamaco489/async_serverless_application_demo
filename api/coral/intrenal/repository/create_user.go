@@ -1,35 +1,16 @@
-package dynamo_db
+package repository
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 )
 
-type DynamoDBWrapper struct {
-	client    *dynamodb.Client
-	tableName string
-}
-
 type DynamoDBService interface {
 	CreateUser(ctx context.Context, user map[string]interface{}) (*dynamodb.PutItemOutput, error)
-}
-
-func NewDynamoDBWrapper(cfg aws.Config, tableName string) *DynamoDBWrapper {
-	cfg.Credentials = aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider("dummy", "dummy", ""))
-
-	client := dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
-		o.BaseEndpoint = aws.String("http://dynamodb-local:8000")
-	})
-
-	return &DynamoDBWrapper{
-		client:    client,
-		tableName: tableName,
-	}
 }
 
 func (w *DynamoDBWrapper) CreateUser(ctx context.Context, user map[string]interface{}) (*dynamodb.PutItemOutput, error) {
