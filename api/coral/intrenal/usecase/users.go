@@ -20,7 +20,7 @@ type UserUseCase interface {
 }
 
 func NewUserUseCase(dynamoRepo *repository.DynamoDBRepository) *userUseCase {
-	const tableName = "Users"
+	const tableName = "users"
 	return &userUseCase{
 		dynamoRepo: dynamoRepo,
 		tableName:  tableName,

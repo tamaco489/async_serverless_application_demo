@@ -7,7 +7,7 @@ import (
 )
 
 type User struct {
-	UserID     string `json:"UserID"`
+	UserID     string `json:"user_id"`
 	Email      string `json:"email"`
 	Birthday   string `json:"birthday"`
 	EkycStatus string `json:"ekyc_status"`
@@ -35,32 +35,33 @@ func NewUser(userID, email, birthday, ekycStatus, inviteCode string, isAdmin boo
 }
 
 // dynamoAttributeMapFromUser: User型をDynamoDB用の属性マップに変換
-func (user User) DynamoAttributeMapFromUser() (map[string]types.AttributeValue, error) {
+func (u User) DynamoAttributeMapFromUser() (map[string]types.AttributeValue, error) {
+
 	item := make(map[string]types.AttributeValue)
 
 	// UserID
-	item["UserID"] = &types.AttributeValueMemberS{Value: user.UserID}
+	item["user_id"] = &types.AttributeValueMemberS{Value: u.UserID}
 
 	// Email
-	item["Email"] = &types.AttributeValueMemberS{Value: user.Email}
+	item["email"] = &types.AttributeValueMemberS{Value: u.Email}
 
 	// Birthday
-	item["Birthday"] = &types.AttributeValueMemberS{Value: user.Birthday}
+	item["birthday"] = &types.AttributeValueMemberS{Value: u.Birthday}
 
 	// EkycStatus
-	item["EkycStatus"] = &types.AttributeValueMemberS{Value: user.EkycStatus}
+	item["ekycStatus"] = &types.AttributeValueMemberS{Value: u.EkycStatus}
 
 	// InviteCode
-	item["InviteCode"] = &types.AttributeValueMemberS{Value: user.InviteCode}
+	item["invite_code"] = &types.AttributeValueMemberS{Value: u.InviteCode}
 
 	// IsAdmin
-	item["IsAdmin"] = &types.AttributeValueMemberBOOL{Value: user.IsAdmin}
+	item["is_admin"] = &types.AttributeValueMemberBOOL{Value: u.IsAdmin}
 
 	// CreatedAt
-	item["CreatedAt"] = &types.AttributeValueMemberS{Value: user.CreatedAt}
+	item["created_at"] = &types.AttributeValueMemberS{Value: u.CreatedAt}
 
 	// UpdatedAt
-	item["UpdatedAt"] = &types.AttributeValueMemberS{Value: user.UpdatedAt}
+	item["updated_at"] = &types.AttributeValueMemberS{Value: u.UpdatedAt}
 
 	return item, nil
 }

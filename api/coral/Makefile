@@ -57,14 +57,14 @@ get-dynamodb-tables:
 
 create-dynamodb-table:
 	aws --endpoint-url http://localhost:8000 dynamodb create-table \
-		--table-name Users \
-		--attribute-definitions AttributeName=UserID,AttributeType=S \
-		--key-schema AttributeName=UserID,KeyType=HASH \
+		--table-name users \
+		--attribute-definitions AttributeName=user_id,AttributeType=S \
+		--key-schema AttributeName=user_id,KeyType=HASH \
 		--provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 | jq .
 
 delete-dynamodb-table:
 	aws --endpoint-url http://localhost:8000 dynamodb delete-table \
-		--table-name Users | jq .
+		--table-name users | jq .
 
 
 # =================================================================
