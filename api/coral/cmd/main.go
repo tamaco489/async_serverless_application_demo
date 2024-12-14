@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/tamaco489/async_serverless_application_demo/api/coral/intrenal/configuration"
 	"github.com/tamaco489/async_serverless_application_demo/api/coral/intrenal/handler"
 )
@@ -22,17 +23,19 @@ func main() {
 		"port", configuration.Get().API.Port,
 	)
 
+	r := mux.NewRouter()
+
 	// GET: health check API
-	http.HandleFunc("/coral/v3/healthcheck", coralHandler.HealthCheckHandler)
+	r.HandleFunc("/coral/v3/healthcheck", coralHandler.HealthCheckHandler).Methods(http.MethodGet)
 
-	// POST: create new user
-	http.HandleFunc("/coral/v3/users", coralHandler.CreateUserHandler)
+	// POST: create new user API
+	r.HandleFunc("/coral/v3/users", coralHandler.CreateUserHandler).Methods(http.MethodPost)
 
-	// GET: get user by user_id
-	http.HandleFunc("/coral/v3/users/me", coralHandler.GetMeHandler)
+	// GET: get me user API
+	r.HandleFunc("/coral/v3/users/me", coralHandler.GetMeHandler).Methods(http.MethodGet)
 
-	// PUT: update user by user_id
-	// http.HandleFunc("/coral/v3/users/{userID}", handler.HealthCheckHandler)
+	// GET/PUT: get or put user by user_id API
+	r.HandleFunc("/coral/v3/users/{userID}", coralHandler.GetUserByIDHandler).Methods(http.MethodGet, http.MethodPut)
 
 	// GET: get users only administrator
 	// http.HandleFunc("/coral/v3/users", handler.HealthCheckHandler)
@@ -40,7 +43,7 @@ func main() {
 	// DELETE: delete user by user_id only administrator
 	// http.HandleFunc("/coral/v3/users/{userID}", handler.HealthCheckHandler)
 
-	if err := http.ListenAndServe(fmt.Sprintf(":%s", configuration.Get().API.Port), nil); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", configuration.Get().API.Port), r); err != nil {
 		slog.ErrorContext(ctx, "ListenAndServe error", "error", err)
 	}
 }

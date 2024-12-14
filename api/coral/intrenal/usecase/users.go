@@ -11,22 +11,23 @@ import (
 )
 
 type userUseCase struct {
-	dynamoRepo *repository.DynamoDBRepository
-	tableName  string
+	repo      repository.IUserRepository
+	tableName string
 }
 
-type UserUseCase interface {
+type IUserUseCase interface {
 	CreateUser(ctx context.Context, user map[string]interface{}) (*model.User, error)
 	GetMeUser(ctx context.Context, uid string) (*model.User, error)
+	GetUserByID(ctx context.Context, uid string) (*model.User, error)
 }
 
-var _ UserUseCase = (*userUseCase)(nil)
+var _ IUserUseCase = (*userUseCase)(nil)
 
-func NewUserUseCase(dynamoRepo *repository.DynamoDBRepository) *userUseCase {
+func NewUserUseCase(repo repository.IUserRepository) *userUseCase {
 	const tableName = "users"
 	return &userUseCase{
-		dynamoRepo: dynamoRepo,
-		tableName:  tableName,
+		repo:      repo,
+		tableName: tableName,
 	}
 }
 
@@ -43,7 +44,7 @@ func (uc *userUseCase) CreateUser(ctx context.Context, user map[string]interface
 	u.CreatedAt = currentTime
 	u.UpdatedAt = currentTime
 
-	if err = uc.dynamoRepo.CreateUser(ctx, uc.tableName, u); err != nil {
+	if err = uc.repo.CreateUser(ctx, uc.tableName, u); err != nil {
 		return nil, fmt.Errorf("failed to create user: %v", err)
 	}
 
@@ -61,7 +62,11 @@ func (uc *userUseCase) CreateUser(ctx context.Context, user map[string]interface
 
 // GetMeUser: 自身のユーザ情報を取得します。
 func (uc *userUseCase) GetMeUser(ctx context.Context, uid string) (*model.User, error) {
-	return uc.dynamoRepo.GetMeUser(ctx, uc.tableName, uid)
+	return uc.repo.GetMeUser(ctx, uc.tableName, uid)
+}
+
+func (uc *userUseCase) GetUserByID(ctx context.Context, uid string) (*model.User, error) {
+	return uc.repo.GetUserByID(ctx, uc.tableName, uid)
 }
 
 // convertToUserModel: リクエストボディに指定された内容をUserモデルに変換
