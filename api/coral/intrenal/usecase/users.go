@@ -18,6 +18,7 @@ type userUseCase struct {
 type UserUseCase interface {
 	CreateUser(ctx context.Context, user map[string]interface{}) (*model.User, error)
 	GetMeUser(ctx context.Context, uid string) (*model.User, error)
+	GetUserByID(ctx context.Context, uid string) (*model.User, error)
 }
 
 var _ UserUseCase = (*userUseCase)(nil)
@@ -62,6 +63,12 @@ func (uc *userUseCase) CreateUser(ctx context.Context, user map[string]interface
 // GetMeUser: 自身のユーザ情報を取得します。
 func (uc *userUseCase) GetMeUser(ctx context.Context, uid string) (*model.User, error) {
 	return uc.dynamoRepo.GetMeUser(ctx, uc.tableName, uid)
+}
+
+func (uc *userUseCase) GetUserByID(ctx context.Context, uid string) (*model.User, error) {
+	return &model.User{
+		UserID: uid,
+	}, nil
 }
 
 // convertToUserModel: リクエストボディに指定された内容をUserモデルに変換

@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -53,7 +52,7 @@ func (ch *CoralHandler) GetMeHandler(w http.ResponseWriter, r *http.Request) {
 
 	response, err := ch.userUseCase.GetMeUser(r.Context(), uid)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("failed to get me user for dynamodb: %v", err), http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("failed fetch user me: %v", err), http.StatusInternalServerError)
 		return
 	}
 
@@ -68,32 +67,27 @@ func (ch *CoralHandler) GetMeHandler(w http.ResponseWriter, r *http.Request) {
 func (ch *CoralHandler) GetUserByIDHandler(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	userID := vars["userID"]
+	uid := vars["userID"]
 
-	if userID == "" {
+	if uid == "" {
 		http.Error(w, "userID is required", http.StatusBadRequest)
 		return
 	}
 
-	switch r.Method {
-	case http.MethodGet:
-		log.Println("[debug] GetUserByIDHandler userID:", userID, "method:", r.Method)
-		//
+	if r.Method != http.MethodGet {
+		http.Error(w, "method not supported", http.StatusMethodNotAllowed)
+	}
 
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		response := map[string]string{"user_id": userID}
-		if err := json.NewEncoder(w).Encode(response); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
+	response, err := ch.userUseCase.GetUserByID(r.Context(), uid)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("failed fetch user by id: %v", err), http.StatusInternalServerError)
+		return
+	}
 
-	case http.MethodPut:
-		//
-
-	case http.MethodDelete:
-		//
-
-	default:
-		http.Error(w, "Method not supported", http.StatusMethodNotAllowed)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, fmt.Sprintf("failed to encode response: %v", err), http.StatusInternalServerError)
+		return
 	}
 }
