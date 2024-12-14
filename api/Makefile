@@ -99,6 +99,14 @@ coral-getme-user:
 # 	curl -sX GET 'http://localhost:8082/coral/v3/users/me' \
 # 		-H "Content-Type: application/json" | jq .
 
+coral-get-user:
+	curl -sX GET 'https://${AWS_API_v3_DOMAIN}/coral/v3/users/0193c4cc-1e5c-7188-ab2f-3856a4b73566' \
+		-H "Content-Type: application/json" | jq .
+
+# coral-get-user:
+# 	curl -sX GET 'http://localhost:8082/coral/v3/users/0193c51c-d390-78a0-815e-57c8a763e3b5' \
+# 		-H "Content-Type: application/json" | jq .
+
 
 # =================================================================
 # tfstate管理用 S3 backet の作成
