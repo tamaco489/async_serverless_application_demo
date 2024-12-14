@@ -46,7 +46,7 @@ func (ch *CoralHandler) GetMeHandler(w http.ResponseWriter, r *http.Request) {
 	// 本来であれば、middlewareでhttp headerに設定されたjwtの正当性検証を行い、その過程を経て以降の処理を行うのが望ましい
 
 	// ここではこのuidは正当なユーザのuidであるものとして扱う
-	uid := "0193c389-62f4-780a-b49e-ac424adbe46c"
+	uid := "0193c4cc-1e5c-7188-ab2f-3856a4b73566"
 
 	response, err := ch.userUseCase.GetMeUser(r.Context(), uid)
 	if err != nil {
