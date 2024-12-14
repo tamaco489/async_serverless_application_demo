@@ -58,4 +58,6 @@ resource "aws_dynamodb_table" "user_table" {
     enabled        = false
     attribute_name = "ttl" # TTL(生存期間)を設定する場合
   }
+
+  tags = { Name = "${var.env}-coral-api-dynamodb-users-table" }
 }
