@@ -1,6 +1,9 @@
 resource "aws_dynamodb_table" "user_table" {
   name = "users" # テーブル名
 
+  # 削除保護設定
+  deletion_protection_enabled = true
+
   # 料金モード
   billing_mode = "PAY_PER_REQUEST" # 従量課金モードに設定
 
@@ -48,10 +51,6 @@ resource "aws_dynamodb_table" "user_table" {
     hash_key        = "ekyc_status" # ekyc_statusをハッシュキーとして使用
     projection_type = "ALL"         # インデックス内に全ての属性を含める
   }
-
-  # # オプション: DynamoDB Streamsの設定
-  # stream_enabled   = true
-  # stream_view_type = "NEW_AND_OLD_IMAGES" # 変更前後のデータを保存
 
   # オプション: TTL (Time to Live) 設定
   ttl {
