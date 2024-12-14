@@ -19,6 +19,7 @@ type userRepository struct {
 type IUserRepository interface {
 	CreateUser(ctx context.Context, tableName string, user *model.User) error
 	GetMeUser(ctx context.Context, tableName string, uid string) (*model.User, error)
+	GetUserByID(ctx context.Context, tableName string, uid string) (*model.User, error)
 }
 
 var _ IUserRepository = (*userRepository)(nil)
@@ -55,6 +56,42 @@ func (ur *userRepository) CreateUser(ctx context.Context, tableName string, user
 // GetMeUser: 自身のユーザ情報を取得します。
 func (ur *userRepository) GetMeUser(ctx context.Context, tableName string, uid string) (*model.User, error) {
 
+	result, err := ur.client.Query(ctx, &dynamodb.QueryInput{
+		TableName:              aws.String(tableName),
+		KeyConditionExpression: aws.String("user_id = :user_id"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":user_id": &types.AttributeValueMemberS{Value: uid},
+		},
+	})
+	if err != nil {
+		var ae awserr.Error
+		if ok := errors.As(err, &ae); ok {
+			return nil, fmt.Errorf("failed to query dynamodb: %v", ae.Error())
+		}
+		return nil, fmt.Errorf("failed to query dynamodb: %v", err)
+	}
+
+	// クエリ結果が空の場合は、ユーザが見つからなかったことを返す
+	if len(result.Items) == 0 {
+		return nil, fmt.Errorf("user with uid %s not found", uid)
+	}
+
+	// ユニークなユーザのため基本的には複数のレコードが返却されることはない
+	if len(result.Items) > 1 {
+		return nil, fmt.Errorf("many user with uid %s", uid)
+	}
+
+	// DynamoDBのItemをUser構造体に変換
+	item := result.Items[0] // 1件しか返されないので、最初の1件を取得
+	u := model.NewUser()
+
+	// DynamoDBの属性マップをUser構造体に変換
+	user := u.DynamoAttributeMapToUser(item)
+
+	return user, nil
+}
+
+func (ur *userRepository) GetUserByID(ctx context.Context, tableName string, uid string) (*model.User, error) {
 	result, err := ur.client.Query(ctx, &dynamodb.QueryInput{
 		TableName:              aws.String(tableName),
 		KeyConditionExpression: aws.String("user_id = :user_id"),

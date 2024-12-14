@@ -66,9 +66,7 @@ func (uc *userUseCase) GetMeUser(ctx context.Context, uid string) (*model.User, 
 }
 
 func (uc *userUseCase) GetUserByID(ctx context.Context, uid string) (*model.User, error) {
-	return &model.User{
-		UserID: uid,
-	}, nil
+	return uc.repo.GetUserByID(ctx, uc.tableName, uid)
 }
 
 // convertToUserModel: リクエストボディに指定された内容をUserモデルに変換
