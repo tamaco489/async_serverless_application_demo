@@ -14,6 +14,7 @@ import (
 
 type DynamoDBService interface {
 	CreateUser(ctx context.Context, tableName string, user *model.User) error
+	GetMeUser(ctx context.Context, tableName string, uid string) (*model.User, error)
 }
 
 var _ DynamoDBService = (*DynamoDBRepository)(nil)
