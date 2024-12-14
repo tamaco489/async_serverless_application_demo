@@ -10,7 +10,7 @@ import (
 
 type CoralHandler struct {
 	config      configuration.Config
-	userUseCase usecase.UserUseCase
+	userUseCase usecase.IUserUseCase
 }
 
 func NewHandler(ctx context.Context) (*CoralHandler, error) {
@@ -20,7 +20,8 @@ func NewHandler(ctx context.Context) (*CoralHandler, error) {
 
 	cnf := configuration.Get()
 	dynamoDBRepo := repository.NewDynamoDBRepository(cnf.AWSConfig, cnf.API.Env)
-	userUseCase := usecase.NewUserUseCase(dynamoDBRepo)
+	userRepo := repository.NewUserRepository(dynamoDBRepo.Client())
+	userUseCase := usecase.NewUserUseCase(userRepo)
 
 	return &CoralHandler{
 		config:      cnf,

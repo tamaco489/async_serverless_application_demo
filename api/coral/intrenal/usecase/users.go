@@ -11,19 +11,19 @@ import (
 )
 
 type userUseCase struct {
-	repo      repository.DynamoDBService
+	repo      repository.IUserRepository
 	tableName string
 }
 
-type UserUseCase interface {
+type IUserUseCase interface {
 	CreateUser(ctx context.Context, user map[string]interface{}) (*model.User, error)
 	GetMeUser(ctx context.Context, uid string) (*model.User, error)
 	GetUserByID(ctx context.Context, uid string) (*model.User, error)
 }
 
-var _ UserUseCase = (*userUseCase)(nil)
+var _ IUserUseCase = (*userUseCase)(nil)
 
-func NewUserUseCase(repo *repository.DynamoDBRepository) *userUseCase {
+func NewUserUseCase(repo repository.IUserRepository) *userUseCase {
 	const tableName = "users"
 	return &userUseCase{
 		repo:      repo,

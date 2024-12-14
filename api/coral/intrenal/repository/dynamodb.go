@@ -29,3 +29,8 @@ func NewDynamoDBRepository(cfg aws.Config, env string) *DynamoDBRepository {
 		client: client,
 	}
 }
+
+// Client: NewDynamoDBRepositoryによりDynamoDBRepositoryを生成し、それを満たした状態でこのメソッドを呼び出す。
+func (r *DynamoDBRepository) Client() *dynamodb.Client {
+	return r.client
+}

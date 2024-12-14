@@ -12,22 +12,32 @@ import (
 	"github.com/tamaco489/async_serverless_application_demo/api/coral/intrenal/model"
 )
 
-type DynamoDBService interface {
+type userRepository struct {
+	client *dynamodb.Client
+}
+
+type IUserRepository interface {
 	CreateUser(ctx context.Context, tableName string, user *model.User) error
 	GetMeUser(ctx context.Context, tableName string, uid string) (*model.User, error)
 }
 
-var _ DynamoDBService = (*DynamoDBRepository)(nil)
+var _ IUserRepository = (*userRepository)(nil)
+
+func NewUserRepository(client *dynamodb.Client) IUserRepository {
+	return &userRepository{
+		client: client,
+	}
+}
 
 // CreateUser: ユーザを新規で作成します。
-func (w *DynamoDBRepository) CreateUser(ctx context.Context, tableName string, user *model.User) error {
+func (ur *userRepository) CreateUser(ctx context.Context, tableName string, user *model.User) error {
 
 	item, err := user.DynamoAttributeMapFromUser()
 	if err != nil {
 		return fmt.Errorf("failed to convert user to attribute map: %v", err)
 	}
 
-	_, err = w.client.PutItem(ctx, &dynamodb.PutItemInput{
+	_, err = ur.client.PutItem(ctx, &dynamodb.PutItemInput{
 		TableName: aws.String(tableName),
 		Item:      item,
 	})
@@ -43,9 +53,9 @@ func (w *DynamoDBRepository) CreateUser(ctx context.Context, tableName string, u
 }
 
 // GetMeUser: 自身のユーザ情報を取得します。
-func (w *DynamoDBRepository) GetMeUser(ctx context.Context, tableName string, uid string) (*model.User, error) {
+func (ur *userRepository) GetMeUser(ctx context.Context, tableName string, uid string) (*model.User, error) {
 
-	result, err := w.client.Query(ctx, &dynamodb.QueryInput{
+	result, err := ur.client.Query(ctx, &dynamodb.QueryInput{
 		TableName:              aws.String(tableName),
 		KeyConditionExpression: aws.String("user_id = :user_id"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
