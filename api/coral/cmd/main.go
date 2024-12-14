@@ -29,7 +29,7 @@ func main() {
 	http.HandleFunc("/coral/v3/users", coralHandler.CreateUserHandler)
 
 	// GET: get user by user_id
-	// http.HandleFunc("/coral/v3/users/{userID}", handler.HealthCheckHandler)
+	http.HandleFunc("/coral/v3/users/me", coralHandler.GetMeHandler)
 
 	// PUT: update user by user_id
 	// http.HandleFunc("/coral/v3/users/{userID}", handler.HealthCheckHandler)

@@ -25,6 +25,7 @@ data "aws_iam_policy_document" "coral_api" {
     effect = "Allow"
     actions = [
       "dynamodb:PutItem",
+      "dynamodb:Query",
       "dynamodb:UpdateItem",
       "dynamodb:BatchWriteItem"
     ]
