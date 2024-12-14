@@ -1,8 +1,8 @@
 resource "aws_dynamodb_table" "user_table" {
   name = "users" # テーブル名
 
-  # 削除保護設定
-  deletion_protection_enabled = true
+  # 削除保護設定 (削除されたくない場合はtrueで反映する)
+  deletion_protection_enabled = false
 
   # 料金モード
   billing_mode = "PAY_PER_REQUEST" # 従量課金モードに設定
