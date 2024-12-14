@@ -91,6 +91,14 @@ coral-create-user:
 # 		-H "Content-Type: application/json" \
 # 		-d '{"email":"ulala.halu@example.com", "birthday":"2000-12-01", "ekyc_status":"pending", "invite_code":"XYZ123", "is_admin":false}'
 
+coral-getme-user:
+	curl -sX GET 'https://${AWS_API_v3_DOMAIN}/coral/v3/users/me' \
+		-H "Content-Type: application/json" | jq .
+
+# coral-getme-user:
+# 	curl -sX GET 'http://localhost:8082/coral/v3/users/me' \
+# 		-H "Content-Type: application/json" | jq .
+
 
 # =================================================================
 # tfstate管理用 S3 backet の作成
