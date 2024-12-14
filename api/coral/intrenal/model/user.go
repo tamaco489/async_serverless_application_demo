@@ -1,7 +1,7 @@
 package model
 
 import (
-	"time"
+	"log"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
@@ -18,19 +18,16 @@ type User struct {
 }
 
 // NewUser: Userモデルの初期化
-func NewUser(userID, email, birthday, ekycStatus, inviteCode string, isAdmin bool, now time.Time) *User {
-
-	currentTime := now.Format(time.RFC3339) // 現在の時刻をISO 8601形式で取得
-
+func NewUser() *User {
 	return &User{
-		UserID:     userID,
-		Email:      email,
-		Birthday:   birthday,
-		EkycStatus: ekycStatus,
-		InviteCode: inviteCode,
-		IsAdmin:    isAdmin,
-		CreatedAt:  currentTime,
-		UpdatedAt:  currentTime,
+		UserID:     "",
+		Email:      "",
+		Birthday:   "",
+		EkycStatus: "",
+		InviteCode: "",
+		IsAdmin:    false,
+		CreatedAt:  "",
+		UpdatedAt:  "",
 	}
 }
 
@@ -64,4 +61,37 @@ func (u User) DynamoAttributeMapFromUser() (map[string]types.AttributeValue, err
 	item["updated_at"] = &types.AttributeValueMemberS{Value: u.UpdatedAt}
 
 	return item, nil
+}
+
+// DynamoAttributeMapToUser: DynamoDBの属性マップをUser構造体に変換
+func (u User) DynamoAttributeMapToUser(item map[string]types.AttributeValue) *User {
+	// 各属性をマッピング。対応する型にキャストして設定
+	setUserAttribute(item, "user_id", &u.UserID)
+	setUserAttribute(item, "email", &u.Email)
+	setUserAttribute(item, "birthday", &u.Birthday)
+	setUserAttribute(item, "ekyc_status", &u.EkycStatus)
+	setUserAttribute(item, "invite_code", &u.InviteCode)
+	setUserAttribute(item, "is_admin", &u.IsAdmin)
+	setUserAttribute(item, "created_at", &u.CreatedAt)
+	setUserAttribute(item, "updated_at", &u.UpdatedAt)
+
+	return &u
+}
+
+// setUserAttribute: DynamoDBのアイテムからUser構造体のフィールドに値を設定するユーティリティ関数
+func setUserAttribute(item map[string]types.AttributeValue, key string, target interface{}) {
+	if value, exists := item[key]; exists {
+		switch v := value.(type) {
+		case *types.AttributeValueMemberS:
+			if strTarget, ok := target.(*string); ok {
+				*strTarget = v.Value
+			}
+		case *types.AttributeValueMemberBOOL:
+			if boolTarget, ok := target.(*bool); ok {
+				*boolTarget = v.Value
+			}
+		default:
+			log.Printf("unexpected type for key: %s, value type: %T", key, v)
+		}
+	}
 }
