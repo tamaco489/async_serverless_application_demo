@@ -55,7 +55,7 @@ resource "aws_dynamodb_table" "user_table" {
 
   # オプション: TTL (Time to Live) 設定
   ttl {
-    attribute_name = "ttl" # TTL(生存期間)を設定する場合
     enabled        = false
+    attribute_name = "ttl" # TTL(生存期間)を設定する場合
   }
 }
