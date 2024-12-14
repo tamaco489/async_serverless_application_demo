@@ -30,6 +30,7 @@ func NewUserUseCase(dynamoRepo *repository.DynamoDBRepository) *userUseCase {
 	}
 }
 
+// CreateUser: ユーザを新規で作成します。
 func (uc *userUseCase) CreateUser(ctx context.Context, user map[string]interface{}) (*model.User, error) {
 
 	u, err := uc.convertToUserModel(user)
@@ -56,6 +57,11 @@ func (uc *userUseCase) CreateUser(ctx context.Context, user map[string]interface
 		CreatedAt:  currentTime,
 		UpdatedAt:  currentTime,
 	}, nil
+}
+
+// GetMeUser: 自身のユーザ情報を取得します。
+func (uc *userUseCase) GetMeUser(ctx context.Context, uid string) (*model.User, error) {
+	return uc.dynamoRepo.GetMeUser(ctx, uc.tableName, uid)
 }
 
 // convertToUserModel: リクエストボディに指定された内容をUserモデルに変換
@@ -101,9 +107,4 @@ func (uc *userUseCase) convertToUserModel(user map[string]interface{}) (*model.U
 		InviteCode: inviteCode,
 		IsAdmin:    isAdmin,
 	}, nil
-}
-
-// GetMeUser: 自身のユーザ情報を取得します。
-func (uc *userUseCase) GetMeUser(ctx context.Context, uid string) (*model.User, error) {
-	return uc.dynamoRepo.GetMeUser(ctx, uc.tableName, uid)
 }

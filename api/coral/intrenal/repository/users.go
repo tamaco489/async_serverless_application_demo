@@ -41,7 +41,7 @@ func (w *DynamoDBRepository) CreateUser(ctx context.Context, tableName string, u
 	return nil
 }
 
-// GetMeUser: 指定したuidに紐づくユーザ情報を取得します。
+// GetMeUser: 自身のユーザ情報を取得します。
 func (w *DynamoDBRepository) GetMeUser(ctx context.Context, tableName string, uid string) (*model.User, error) {
 
 	result, err := w.client.Query(ctx, &dynamodb.QueryInput{
