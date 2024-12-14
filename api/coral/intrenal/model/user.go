@@ -49,7 +49,7 @@ func (u User) DynamoAttributeMapFromUser() (map[string]types.AttributeValue, err
 	item["birthday"] = &types.AttributeValueMemberS{Value: u.Birthday}
 
 	// EkycStatus
-	item["ekycStatus"] = &types.AttributeValueMemberS{Value: u.EkycStatus}
+	item["ekyc_status"] = &types.AttributeValueMemberS{Value: u.EkycStatus}
 
 	// InviteCode
 	item["invite_code"] = &types.AttributeValueMemberS{Value: u.InviteCode}

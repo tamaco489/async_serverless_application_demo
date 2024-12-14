@@ -5,7 +5,7 @@ resource "aws_lambda_function" "coral_api" {
   package_type  = "Image"
   image_uri     = "${data.terraform_remote_state.ecr.outputs.coral_api.url}:coral_v0.0.0"
   timeout       = 20
-  memory_size   = 256
+  memory_size   = 128
 
   lifecycle {
     ignore_changes = [image_uri]
